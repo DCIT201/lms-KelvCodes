@@ -1,32 +1,57 @@
+
+
 public class App {
+    public String getGreeting() {
+        return "Hello World!";
+    }
+
     public static void main(String[] args) {
-        System.out.println("Hello and welcome to this library");
+              // Print greeting
+        System.out.println(new App().getGreeting());
         // Create a library
         Library library = new Library();
-        // Create books
-        Book book1 = new Book("1984", "George Orwell", "1234567890");
-        Book book2 = new Book("To Kill a Mockingbird", "Harper Lee", "2345678901");
-        Book book3 = new Book("The Great Gatsby", "F. Scott Fitzgerald", "3456789012");
-        // Add books to the library
+
+        // Add some books to the library
+        Book book1 = new Book("1984", "George Orwell", 1949);
+        book1.setAvailableCopies(3); // Set available copies
         library.addBook(book1);
+
+        Book book2 = new Book("To Kill a Mockingbird", "Harper Lee", 1960);
+        book2.setAvailableCopies(2); // Set available copies
         library.addBook(book2);
-        library.addBook(book3);
-        // Create a patron
-        Patron patron = new Patron("John Doe", "P001");
-        // View available books
-        System.out.println("Books available in the library:");
-        library.viewBooks();
-        // Patron borrows a book by ISBN
-        patron.borrowBook(library, "1234567890"); // Book with ISBN 1234567890 (1984) is available, will be borrowed
-        // View available books again
-        System.out.println("\nBooks available after borrowing a book:");
-        library.viewBooks();
-        // Patron tries to borrow the same book again
-        patron.borrowBook(library, "1234567890"); // Book with ISBN 1234567890 is now unavailable
-        // Patron returns a book by ISBN
-        patron.returnBook(library, "1234567890"); // Book with ISBN 1234567890 will be returned
-        // View available books again
-        System.out.println("\nBooks available after returning a book:");
-        library.viewBooks();
+
+        // Register patrons
+        Patron patron1 = new Patron("Alice");
+        Patron patron2 = new Patron("Bob");
+        library.registerPatron(patron1);
+        library.registerPatron(patron2);
+
+        // Simulate borrowing a book
+        System.out.println(patron1.getName() + " is trying to borrow '1984': " +
+                library.checkoutBook("1984", patron1));
+
+        // Simulate returning a book
+        library.returnBook("1984", patron1);
+        System.out.println(patron1.getName() + " returned '1984'.");
+
+        // Print borrowed books for each patron
+        System.out.println(patron1.getName() + "'s borrowed books: " + patron1.getBorrowedBooks().size());
+        
+        // Print available copies of '1984'
+        System.out.println("Available copies of '1984': " + book1.getAvailableCopies());
+
+        // Print all registered patrons
+        System.out.println("Registered Patrons:");
+        for (Patron patron : library.getPatrons()) {
+            System.out.println("- " + patron.getName());
+        }
+
+        // Print all books in the library
+        System.out.println("Books in Library:");
+        for (Book book : library.getBooks()) {
+            System.out.println("- " + book.getTitle() + " by " + book.getAuthor() + " (Available Copies: " + book.getAvailableCopies() + ")");
+        }
+        
+  
     }
 }

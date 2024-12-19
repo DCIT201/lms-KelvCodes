@@ -1,36 +1,51 @@
+
+
 import java.util.ArrayList;
 import java.util.List;
+
 public class Library {
     private List<Book> books;
-    // Constructor
+    private List<Patron> patrons;
+
     public Library() {
         this.books = new ArrayList<>();
+        this.patrons = new ArrayList<>();
     }
-    // Method to add a book to the library
+
     public void addBook(Book book) {
         books.add(book);
     }
-    // Method to remove a book from the library
-    public void removeBook(Book book) {
-        books.remove(book);
+
+    public void registerPatron(Patron patron) {
+        patrons.add(patron);
     }
-    // Method to view all books in the library
-    public void viewBooks() {
-        if (books.isEmpty()) {
-            System.out.println("No books available in the library.");
-        } else {
-            for (Book book : books) {
-                System.out.println(book);
-            }
-        }
-    }
-    // Method to find a book by ISBN
-    public Book findBookByIsbn(String isbn) {
+
+    public boolean checkoutBook(String title, Patron patron) {
         for (Book book : books) {
-            if (book.getIsbn().equals(isbn)) {
-                return book;
+            if (book.getTitle().equals(title) && book.getAvailableCopies() > 0) {
+                book.setAvailableCopies(book.getAvailableCopies() - 1);
+                patron.borrowBook(book);
+                return true;
             }
         }
-        return null; // Book not found
+        return false; // Book not available
+    }
+
+    public void returnBook(String title, Patron patron) {
+        for (Book book : books) {
+            if (book.getTitle().equals(title)) {
+                book.setAvailableCopies(book.getAvailableCopies() + 1);
+                patron.returnBook(book);
+                break;
+            }
+        }
+    }
+
+    public List<Book> getBooks() {
+        return books; // Return the list of books
+    }
+
+    public List<Patron> getPatrons() {
+        return patrons; // Return the list of patrons
     }
 }
