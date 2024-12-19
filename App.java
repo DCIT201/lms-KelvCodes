@@ -1,55 +1,32 @@
-
-
-public class App{
-    public String getGreeting(){
-        return "Hello and Welcome to This Library Management System";
-    }
-
+public class App {
     public static void main(String[] args) {
-         System.out.println(new App().getGreeting());
+        System.out.println("Hello and welcome to this library");
+        // Create a library
         Library library = new Library();
-
-        // Creating the books
-        Book book1 = new Book("1984", "George Orwell", 1949);
-        Book book2 = new Book("To Kill  a mockingbird", "Harper Lee",1960);
-
-        //Adding the books to the library
+        // Create books
+        Book book1 = new Book("1984", "George Orwell", "1234567890");
+        Book book2 = new Book("To Kill a Mockingbird", "Harper Lee", "2345678901");
+        Book book3 = new Book("The Great Gatsby", "F. Scott Fitzgerald", "3456789012");
+        // Add books to the library
         library.addBook(book1);
         library.addBook(book2);
-
-        //Creating a Patron
-        Patron patron = new Patron("John Doe");
-
-        // Registering the Patron
-        library.registerPatron(patron);
-
-        //Lending a book to the Patron
-        library.lendBook(book1, patron);
-
-        //Showing available books
-        System.out.println("Available books:");
-        for (Book book :library.getAvailableBooks()){
-            System.out.println(book.getTitle());
-        }
-
-        //Showing borrowed books
-        System.out.println("Books borrowed by: " + patron.getName() + ":");
-        for(Book book : patron.getBorrowedBooks()){
-            System.out.println(book.getTitle());
-        }
-        
-        // Returning a book
-        library.returnBook(book1, patron);
-
-        //Final available books after returning
-        System.out.println("Available books after returning: ");
-        for(Book book: library.getAvailableBooks()){
-            System.out.println(book.getTitle());
-        }
-
-       
+        library.addBook(book3);
+        // Create a patron
+        Patron patron = new Patron("John Doe", "P001");
+        // View available books
+        System.out.println("Books available in the library:");
+        library.viewBooks();
+        // Patron borrows a book by ISBN
+        patron.borrowBook(library, "1234567890"); // Book with ISBN 1234567890 (1984) is available, will be borrowed
+        // View available books again
+        System.out.println("\nBooks available after borrowing a book:");
+        library.viewBooks();
+        // Patron tries to borrow the same book again
+        patron.borrowBook(library, "1234567890"); // Book with ISBN 1234567890 is now unavailable
+        // Patron returns a book by ISBN
+        patron.returnBook(library, "1234567890"); // Book with ISBN 1234567890 will be returned
+        // View available books again
+        System.out.println("\nBooks available after returning a book:");
+        library.viewBooks();
     }
 }
-
-
-
