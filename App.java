@@ -1,57 +1,37 @@
+/*
+ * This should be your main class where all your objects will be created
+ */
 
 
 public class App {
-    public String getGreeting() {
-        return "Hello World!";
-    }
-
     public static void main(String[] args) {
-              // Print greeting
-        System.out.println(new App().getGreeting());
-        // Create a library
         Library library = new Library();
 
-        // Add some books to the library
-        Book book1 = new Book("1984", "George Orwell", 1949);
-        book1.setAvailableCopies(3); // Set available copies
-        library.addBook(book1);
+        // Add books to the library
+        library.addBook(new Book("A lecture's salary", "Robert Johnson", 2006));
+        library.addBook(new Book("48 Books of Power", "Ama wilson", 1927));
+        library.addBook(new Book("Power of God", "Nance miles", 2001));
+        library.addBook(new Book("kings in Action", "Irene Oware", 2013));
 
-        Book book2 = new Book("To Kill a Mockingbird", "Harper Lee", 1960);
-        book2.setAvailableCopies(2); // Set available copies
-        library.addBook(book2);
+        // List all books
+        System.out.println("Books in the store:");
+        library.listBooks();
 
-        // Register patrons
-        Patron patron1 = new Patron("Alice");
-        Patron patron2 = new Patron("Bob");
-        library.registerPatron(patron1);
-        library.registerPatron(patron2);
+        // Create a patron
+        Patron patron = new Patron("Mary", 1);
 
-        // Simulate borrowing a book
-        System.out.println(patron1.getName() + " is trying to borrow '1984': " +
-                library.checkoutBook("1984", patron1));
+        // Borrow a book
+        patron.borrowBook(new Book("A Lecture's salary", "Robert Johnson", 2024), library);
 
-        // Simulate returning a book
-        library.returnBook("1984", patron1);
-        System.out.println(patron1.getName() + " returned '1984'.");
+        // List borrowed books
+        System.out.println("\nBorrowed books:");
+        patron.listBorrowedBooks();
 
-        // Print borrowed books for each patron
-        System.out.println(patron1.getName() + "'s borrowed books: " + patron1.getBorrowedBooks().size());
-        
-        // Print available copies of '1984'
-        System.out.println("Available copies of '1984': " + book1.getAvailableCopies());
+        // Return a book
+        patron.returnBook(new Book("A Lecture's salary", "Robert Johnson", 2024), library);
 
-        // Print all registered patrons
-        System.out.println("Registered Patrons:");
-        for (Patron patron : library.getPatrons()) {
-            System.out.println("- " + patron.getName());
-        }
-
-        // Print all books in the library
-        System.out.println("Books in Library:");
-        for (Book book : library.getBooks()) {
-            System.out.println("- " + book.getTitle() + " by " + book.getAuthor() + " (Available Copies: " + book.getAvailableCopies() + ")");
-        }
-        
-  
+        // Final library state
+        System.out.println("\nBooks in the store after operations:");
+        library.listBooks();
     }
 }
