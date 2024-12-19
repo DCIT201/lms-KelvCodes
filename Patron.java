@@ -1,30 +1,41 @@
 
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Patron {
-    private String name;
-    private List<Book> borrowedBooks; // List of borrowed books
+    private final String name;
+    private final ArrayList<Book> borrowedBooks;
 
-    public Patron(String name) {
+    public Patron(String name, int id) {
         this.name = name;
-        this.borrowedBooks = new ArrayList<>();
+        borrowedBooks = new ArrayList<>();
     }
 
-    public String getName() {
-        return name;
+    public void borrowBook(Book book, Library library) {
+        if (library.removeBook(book.title())) {
+            borrowedBooks.add(book);
+            System.out.println(name + " borrowed " + book.title());
+        } else {
+            System.out.println("Book not available.");
+        }
     }
 
-    public void borrowBook(Book book) {
-        borrowedBooks.add(book);
+    public void returnBook(Book book, Library library) {
+        if (borrowedBooks.remove(book)) {
+            library.addBook(book);
+            System.out.println(name + " returned " + book.title());
+        } else {
+            System.out.println("You don't have this book.");
+        }
     }
 
-    public void returnBook(Book book) {
-        borrowedBooks.remove(book);
-    }
-
-    public List<Book> getBorrowedBooks() {
-        return borrowedBooks; // Return the list of borrowed books
+    public void listBorrowedBooks() {
+        if (borrowedBooks.isEmpty()) {
+            System.out.println("No books borrowed.");
+        } else {
+            for (Book book : borrowedBooks) {
+                System.out.println(book.title());
+            }
+        }
     }
 }
